@@ -1,0 +1,11 @@
+[gwrite]
+default_profile = "gcode"
+
+[gwrite.gcode]
+document_start = "G20\nG17\nG90\n"
+segment_first = "G00 X{x:.4f} Y{y:.4f}\n"
+segment = "G01 X{x:.4f} Y{y:.4f}\n"
+document_end = "M2\n"
+unit = "in"
+vertical_flip = true
+info= "This gcode profile is correctly inverted across the y-axis"

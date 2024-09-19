@@ -1,0 +1,127 @@
+
+[gwrite.gcode]
+document_start = "G20\nG17\nG90\n"
+segment_first = "G00 X{x:.4f} Y{y:.4f}\n"
+segment = "G01 X{x:.4f} Y{y:.4f}\n"
+document_end = "M2\n"
+unit = "in"
+vertical_flip = true
+info= "This gcode profile is correctly inverted across the y-axis"
+
+[gwrite.gcodemm]
+document_start = "G21\nG17\nG90\n"
+segment_first = "G00 X{x:.4f} Y{y:.4f}\n"
+segment = "G01 X{x:.4f} Y{y:.4f}\n"
+document_end = "M2\n"
+unit = "mm"
+vertical_flip = true
+info= "This gcode profile is correctly inverted across the y-axis"
+
+[gwrite.gcode_relative]
+document_start = "G20\nG17\nG91\n"
+segment_first = "G00 X{dx:.4f} Y{dy:.4f}\n"
+segment = "G01 X{dx:.4f} Y{dy:.4f}\n"
+document_end = "M2\n"
+unit = "in"
+vertical_flip = true
+info= "This gcode profile is correctly inverted across the y-axis"
+
+[gwrite.csv]
+document_start = "#Operation, X-value, Y-value\n"
+segment_first = "Move, {x:f}, {x:f}\n"
+segment = "Line-to, {x:f}, {x:f}\n"
+segment_last = "Stop, {x:f}, {x:f}\n"
+
+[gwrite.json]
+document_start = "{{"
+document_end = "}}\n"
+line_join = ","
+layer_join = ","
+layer_start = "\n\t\"Layer\": {{"
+layer_end = "\t}}\n"
+line_start = "\n\t\t\"Line{index:d}\": [\n"
+line_end = "\n\t\t]"
+segment = "\t\t{{\n\t\t\t\"X\": {ix:d},\n\t\t\t\"Y\": {iy:d}\n\t\t}},\n"
+segment_last = "\t\t{{\n\t\t\t\"X\": {ix:d},\n\t\t\t\"Y\": {iy:d}\n\t\t}}"
+
+[gwrite.isvg]
+document_start = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink">
+"""
+document_end = "</svg>"
+layer_start = '<g fill="none" stroke="black">'
+line_start = '<path d="M '
+segment_first = "{ix:d} {iy:d} l"
+segment = "{idx:d} {idy:d} "
+line_end = '"/>'
+layer_end = "</g>"
+
+[gwrite.HPGL-R]
+document_start = "IN;"
+layer_start = "SP{layer_id:d};PA;PU0,0;PR;"
+segment_first = "PU{dx:.0f},{dy:.0f};PD"
+segment = "{dx:.0f},{dy:.0f},"
+segment_last ="{dx:.0f},{dy:.0f};"
+document_end = ";SP0;IN\n"
+scale_x = 40
+scale_y = 40
+unit = "mm"
+vertical_flip = true
+info = """Output HPGL relative co-ordinates NB. This will not take care of page margins etc within the machine.
+
+Ensure that the svg layout is landscape.
+
+Pen numbers will be taken from layer numbers"""
+
+[gwrite.BBC-GL-R]
+document_start = ""
+layer_start = "F{layer_id:d}\nC0,0;HK\n"
+segment_first = "C{dx:.0f},{dy:.0f};HJ\n"
+segment = "C{dx:.0f},{dy:.0f};IJ\n"
+document_end = "F0\n"
+scale_x = 10
+scale_y = 10
+unit = "mm"
+vertical_flip = true
+info = """Will output relative coordinates.
+
+Make sure your input layout matches the paper loaded.
+i.e. landscape svg when landscape paper in the machine.
+
+Pen numbers will be taken from layer numbers"""
+
+[gwrite.BBC-GL]
+document_start = ""
+layer_start = "F{layer_id:d}\n"
+segment_first = "C{x:.0f},{y:.0f};HK\n"
+segment = "C{x:.0f},{y:.0f};IK\n"
+document_end = "F0\n"
+scale_x = 10
+scale_y = 10
+unit = "mm"
+vertical_flip = true
+info = """Make sure your input layout matches the paper loaded.
+i.e. landscape svg when landscape paper in the machine
+
+Pen numbers will be taken from layer numbers"""
+
+[gwrite.ninja]
+document_start = "G21\nG17\nG90\nG28\n"
+segment_first =  "G1 Z3 F10000\nG0 X{x:.4f} Y{y:.4f} F15000\nG1 Z6 F6000\n"
+segment = "G1 X{x:.4f} Y{y:.4f} F10000\n"
+document_end = "\nG1 Z0 F1000\nG1 X0 Y0 F1000\nM2\n"
+unit = "mm"
+
+[gwrite.step_motor]
+document_start = "$H (unlock by homing)\nG21 (unit is mm)\nG17 (work in XY plane)\n"
+segment_first =  "G91 Z-10 (pen up)\nG90 X{x:.4f} Y{y:.4f} (travel)\nG91 Z+13 (pen down)\nG90 (absolute position)\n"
+segment = "G01 X{x:.4f} Y{y:.4f} (draw)\n"
+document_end = "G91 Z-10 (pen up)\nG90 X0 Y0 (travel)\nM2 (end)\n"
+unit = "mm"
+
+[gwrite.step_motor_relative]
+document_start = "$H (unlock by homing)\nG21 (unit is mm)\nG17 (work in XY plane)\nG91 (relative position)\n"
+segment_first =  "G01 Z-10 (pen up)\nG00 X{dx:.4f} Y{dy:.4f} (travel)\nG01 Z+13 (pen down)\n"
+segment = "G01 X{dx:.4f} Y{dy:.4f} Z+0.01 (draw with minimum pressure)\n"
+document_end = "G01 Z-10 (pen up)\nG90 X0 Y0 (travel to origin)\nM2 (end)\n"
+unit = "mm"
