@@ -1,4 +1,4 @@
-#Goal
+## Goal
 I want to type journal entry and have my printer write it
 
 This code does the following
