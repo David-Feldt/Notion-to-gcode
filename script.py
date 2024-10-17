@@ -117,4 +117,4 @@ def send_gcode_file_to_printer(file_path, port, baudrate=115200, timeout=1):
 # Example usage:
 gcode_file_path = "output.gcode"  # Replace with your file path
 port = "/dev/ttyUSB0"  # Adjust for your printer's port
-send_gcode_file_to_printer(gcode_file_path, port)
+# send_gcode_file_to_printer(gcode_file_path, port)

@@ -62,7 +62,9 @@ def process_page_text(page_id):
     all_text = []
     for block in text_blocks['results']:
         if block['type'] == 'paragraph':
-            all_text.append(block['paragraph']['rich_text'][0]['plain_text'])
+            print(block)
+            if(len(block['paragraph']['rich_text']) > 0):
+                all_text.append(block['paragraph']['rich_text'][0]['plain_text'])
     
     return "\n".join(all_text)
 
@@ -70,7 +72,7 @@ def process_page_text(page_id):
 def poll_notion_database():
     global last_entry_states
     inner_database_id = get_inner_database_id()
-
+    print("Polling notion")
     while True:
         result = check_for_switch_changes(inner_database_id)
         if result['results']:
@@ -97,9 +99,8 @@ def poll_notion_database():
                 
                 # Update the last known switch value for the next polling cycle
                 last_entry_states[page_id] = print_value
-        
         # Poll every 60 seconds
-        time.sleep(5)
+        time.sleep(2)
 
 # Define what you want to do with the page text
 def gcode_stuff(text):
