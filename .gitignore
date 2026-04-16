@@ -15,3 +15,7 @@ venv/
 
 # Generated G-code output
 *.gcode
+
+# Personal/local files
+david.toml
+test.md
