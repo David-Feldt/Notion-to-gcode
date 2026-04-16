@@ -1,1 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Virtual environment
+myenv/
+venv/
+.venv/
+
+# Environment variables
 .env
+
+# Generated G-code output
+*.gcode
+
+# Personal/local files
+david.toml
+test.md
